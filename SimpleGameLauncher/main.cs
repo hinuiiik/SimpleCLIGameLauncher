@@ -16,7 +16,11 @@
                                   "[add],[remove], or [edit] a game...");
                 Console.WriteLine("");
                 Console.Write("Enter a game number: ");
-                ControlActions.Run(Convert.ToInt32(Console.ReadLine()));
+                //ControlActions.Run(Convert.ToInt32(Console.ReadLine()));
+
+                var osu = new Game("osu!", "/home/gwargoomba/Coding/echo.sh", 1);
+                Console.WriteLine(osu.ID);
+                
             }
         }
     }

@@ -2,21 +2,17 @@ namespace SimpleGameLauncher;
 
 public class Game
 {
-    private string _GameAddress;
-    private string _GameName;
-    private int _GameID;
+    public Guid ID {get; private set; }
+    public string GameAddress {get; set;}
+    public string GameName{get; set;}
+    public int GameId{get; set;}
 
-    public Game(string gameAddress, string gameName, int gameId)
+    public Game(string gameName, string gameAddress, int gameId)
     {
-        this._GameAddress = gameAddress;
-        this._GameName = gameName;
-        this._GameID = gameId;
+        this.GameAddress = gameAddress;
+        this.GameName = gameName;
+        this.GameId = gameId;
+        this.ID = Guid.NewGuid();
     }
-    
-    
-    
-    
-    
-    
-    
+
 }
