@@ -1,18 +1,18 @@
 namespace SimpleGameLauncher;
 using System.Data.SQLite;
 
-class SqliteData
+public static class SqliteData
 {
-    private static string _datapath = Configuration.Datadir();
+    private static readonly string Datapath = Configuration.DataDir;
     
     public static void CreateDatabase()
     {
         Console.WriteLine("Creating Database...");
         // Create a new SQLite database file
-        SQLiteConnection.CreateFile(_datapath + "/GameDB.sqlite");
+        SQLiteConnection.CreateFile($"{Datapath}/GameDB.sqlite");
 
         // Connect to the database
-        SQLiteConnection connection = new SQLiteConnection("Data Source=" + _datapath + "/GameDB.sqlite;Version=3;");
+        SQLiteConnection connection = new SQLiteConnection($"Data Source={Datapath}/GameDB.sqlite;Version=3;");
         connection.Open();
 
         // Create a Games table
@@ -22,26 +22,113 @@ class SqliteData
 
         // Close the database connection
         connection.Close();
-        Console.WriteLine("Database Created!");
     }
-    
-    public static void AddTestGame()
+
+    public static void AddTestGame() // method for adding sample data
     {
-        using var connection = new SQLiteConnection("Data Source=" + _datapath + "/GameDB.sqlite");
-        connection.Open();
-            
-        var command = connection.CreateCommand();
-            
-        // Insert sample game data
-        string insertSql = "INSERT INTO Games (GameName, Developer, ReleaseDate, Genre, Type, FilePath) VALUES (@GameName, @Developer, @ReleaseDate, @Genre, @Type, @FilePath)";
-        SQLiteCommand insertGame = new SQLiteCommand(insertSql, connection);
-        insertGame.Parameters.AddWithValue("@GameName", "Super Mario Bros.");
-        insertGame.Parameters.AddWithValue("@Developer", "Nintendo");
-        insertGame.Parameters.AddWithValue("@ReleaseDate", "1985-09-13");
-        insertGame.Parameters.AddWithValue("@Genre", "Platformer");
-        insertGame.Parameters.AddWithValue("@Type", "Emulator");
-        insertGame.Parameters.AddWithValue("@FilePath", "C:\\Games\\SuperMarioBros.exe");
-        insertGame.ExecuteNonQuery();
-        connection.Close();
+        using (var connection = new SQLiteConnection($"Data Source={Datapath}/GameDB.sqlite")) {
+            connection.Open();
+
+            // var command = connection.CreateCommand();
+
+            // Insert sample game data
+            string insertSql = "INSERT INTO Games (GameName, Developer, ReleaseDate, Genre, Type, FilePath) VALUES (@GameName, @Developer, @ReleaseDate, @Genre, @Type, @FilePath)";
+            SQLiteCommand insertGame = new SQLiteCommand(insertSql, connection);
+            insertGame.Parameters.AddWithValue("@GameName", "Test Game");
+            insertGame.Parameters.AddWithValue("@Developer", "Testing Co.");
+            insertGame.Parameters.AddWithValue("@ReleaseDate", "2023-4-27");
+            insertGame.Parameters.AddWithValue("@Genre", "Simulation");
+            insertGame.Parameters.AddWithValue("@Type", "Native");
+            insertGame.Parameters.AddWithValue("@FilePath", "");
+            insertGame.ExecuteNonQuery();
+            connection.Close();
+        }
     }
+    public static List<Game> GetAllGames()
+    {
+        List<Game> games = new List<Game>();
+
+        using (var connection = new SQLiteConnection($"Data Source={Datapath}/GameDB.sqlite"))
+        {
+            connection.Open();
+
+            var command = connection.CreateCommand();
+            command.CommandText = @"SELECT * FROM Games";
+
+            using (var reader = command.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                    Game game = new Game()
+                    {
+                        GameId = reader.GetInt32(0),
+                        GameName = reader.GetString(1),
+                        GameDeveloper = reader.GetString(2),
+                        GameReleaseDate = reader.GetString(3),
+                        GameGenre= reader.GetString(4),
+                        GameType = reader.GetString(5),
+                        GamePath = reader.GetString(6),
+                    };
+
+                    games.Add(game);
+                }
+            }
+        }
+
+        return games;
+    }
+
+        // public static int NumOfGames()
+        // {
+        //     using (var connection = new SQLiteConnection($"Data Source={Datapath}/GameDB.sqlite"))
+        //     {
+        //         connection.Open();
+        //
+        //         var command = connection.CreateCommand();
+        //         command.CommandText = @"SELECT COUNT(*) from Games";
+        //
+        //         using (var reader = command.ExecuteReader())
+        //         {
+        //             while (reader.Read())
+        //             {
+        //                 return reader.GetInt32(0);
+        //             }
+        //         }
+        //     }
+        //     return 0;
+        // }
+
+        public static Game GetGameById(int gameId)
+        {
+            using (var connection = new SQLiteConnection($"Data Source={Datapath}/GameDB.sqlite"))
+            {
+                connection.Open();
+
+                var command = connection.CreateCommand();
+                command.CommandText = @"SELECT * FROM Games WHERE GameID = @gameID LIMIT 1";
+                command.Parameters.AddWithValue("@gameID", gameId);
+                using (var reader = command.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        return new Game()
+                        {
+                            GameId = reader.GetInt32(0),
+                            GameName = reader.GetString(1),
+                            GameDeveloper = reader.GetString(2),
+                            GameReleaseDate = reader.GetString(3),
+                            GameGenre= reader.GetString(4),
+                            GameType = reader.GetString(5),
+                            GamePath = reader.GetString(6),
+                        };
+                    }
+                    else
+                    {
+                        // Handle the case where no game was found with the specified ID
+                        throw new Exception($"No game found with ID {gameId}");
+                        
+                    }
+                }
+            }
+        }
 }
