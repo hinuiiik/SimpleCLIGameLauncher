@@ -12,19 +12,19 @@ public static class SqliteData
         SQLiteConnection.CreateFile($"{Datapath}/GameDB.sqlite");
 
         // Connect to the database
-        SQLiteConnection connection = new SQLiteConnection($"Data Source={Datapath}/GameDB.sqlite;Version=3;");
+        var connection = new SQLiteConnection($"Data Source={Datapath}/GameDB.sqlite;Version=3;");
         connection.Open();
 
         // Create a Games table
-        string createTableSql = "CREATE TABLE Games (GameID INTEGER PRIMARY KEY, GameName TEXT, Developer TEXT, ReleaseDate DATE, Genre TEXT, Type TEXT, FilePath TEXT)";
-        SQLiteCommand createTableCmd = new SQLiteCommand(createTableSql, connection);
+        var createTableSql = "CREATE TABLE Games (GameID INTEGER PRIMARY KEY, GameName TEXT, Developer TEXT, ReleaseDate DATE, Genre TEXT, Type TEXT, FilePath TEXT)";
+        var createTableCmd = new SQLiteCommand(createTableSql, connection);
         createTableCmd.ExecuteNonQuery();
 
         // Close the database connection
         connection.Close();
     }
 
-    public static void AddTestGame() // method for adding sample data
+    public static void AddGame(string? gameName, string? developer, string? date, string? genre, string? type, string? path) // method for adding sample data
     {
         using (var connection = new SQLiteConnection($"Data Source={Datapath}/GameDB.sqlite")) {
             connection.Open();
@@ -32,21 +32,21 @@ public static class SqliteData
             // var command = connection.CreateCommand();
 
             // Insert sample game data
-            string insertSql = "INSERT INTO Games (GameName, Developer, ReleaseDate, Genre, Type, FilePath) VALUES (@GameName, @Developer, @ReleaseDate, @Genre, @Type, @FilePath)";
-            SQLiteCommand insertGame = new SQLiteCommand(insertSql, connection);
-            insertGame.Parameters.AddWithValue("@GameName", "Test Game");
-            insertGame.Parameters.AddWithValue("@Developer", "Testing Co.");
-            insertGame.Parameters.AddWithValue("@ReleaseDate", "2023-4-27");
-            insertGame.Parameters.AddWithValue("@Genre", "Simulation");
-            insertGame.Parameters.AddWithValue("@Type", "Native");
-            insertGame.Parameters.AddWithValue("@FilePath", "");
+            var insertSql = "INSERT INTO Games (GameName, Developer, ReleaseDate, Genre, Type, FilePath) VALUES (@GameName, @Developer, @ReleaseDate, @Genre, @Type, @FilePath)";
+            var insertGame = new SQLiteCommand(insertSql, connection);
+            insertGame.Parameters.AddWithValue("@GameName", gameName);
+            insertGame.Parameters.AddWithValue("@Developer", developer);
+            insertGame.Parameters.AddWithValue("@ReleaseDate", date);
+            insertGame.Parameters.AddWithValue("@Genre", genre);
+            insertGame.Parameters.AddWithValue("@Type", type);
+            insertGame.Parameters.AddWithValue("@FilePath", path);
             insertGame.ExecuteNonQuery();
             connection.Close();
         }
     }
     public static List<Game> GetAllGames()
     {
-        List<Game> games = new List<Game>();
+        var games = new List<Game>();
 
         using (var connection = new SQLiteConnection($"Data Source={Datapath}/GameDB.sqlite"))
         {
@@ -59,7 +59,7 @@ public static class SqliteData
             {
                 while (reader.Read())
                 {
-                    Game game = new Game()
+                    var game = new Game()
                     {
                         GameId = reader.GetInt32(0),
                         GameName = reader.GetString(1),

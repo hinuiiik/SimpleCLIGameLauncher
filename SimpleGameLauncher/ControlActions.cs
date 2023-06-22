@@ -8,9 +8,9 @@ public static class ControlActions
     {
         try
         {
-            Game game = SqliteData.GetGameById(num);
+            var game = SqliteData.GetGameById(num);
 
-            Process.Start(game.GamePath);
+            Process.Start(game.GamePath ?? throw new InvalidOperationException());
         }
         catch (Exception ex)
         {
@@ -19,9 +19,9 @@ public static class ControlActions
     }
     public static void List()
     {
-        List<Game> games = SqliteData.GetAllGames();
+        var games = SqliteData.GetAllGames();
         
-        foreach (Game game in games)
+        foreach (var game in games)
         {
             Console.WriteLine("Game ID: " + game.GameId);
             Console.WriteLine("Game Name: " + game.GameName);
@@ -33,9 +33,9 @@ public static class ControlActions
             Console.WriteLine();
         }
     }
-    public static void Add(int num)
+    public static void Add(string? gameName, string? developer, string? date, string? genre, string? type, string? path)
     {
-        
+        SqliteData.AddGame(gameName, developer, date, genre, type, path);
     }
     public static void Remove(int num)
     {
@@ -50,11 +50,11 @@ public static class ControlActions
 public class Game
 {
     public int GameId { get; set;  }
-    public string GameName { get; set; }
-    public string GameDeveloper { get; set; }
-    public string GameReleaseDate { get; set; }
-    public string GameGenre { get; set; }
-    public string GameType { get; set; }
-    public string GamePath { get; set; }
+    public string? GameName { get; set; }
+    public string? GameDeveloper { get; set; }
+    public string? GameReleaseDate { get; set; }
+    public string? GameGenre { get; set; }
+    public string? GameType { get; set; }
+    public string? GamePath { get; set; }
     
 }
