@@ -39,7 +39,7 @@ public static class ControlActions
     }
     public static void Remove(int num)
     {
-        
+        SqliteData.RemoveGame(num);
     }
     public static void Edit(int num)
     {

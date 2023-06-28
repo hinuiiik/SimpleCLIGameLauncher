@@ -31,7 +31,7 @@ public static class SqliteData
 
             // var command = connection.CreateCommand();
 
-            // Insert sample game data
+            // Insert game data
             var insertSql = "INSERT INTO Games (GameName, Developer, ReleaseDate, Genre, Type, FilePath) VALUES (@GameName, @Developer, @ReleaseDate, @Genre, @Type, @FilePath)";
             var insertGame = new SQLiteCommand(insertSql, connection);
             insertGame.Parameters.AddWithValue("@GameName", gameName);
@@ -44,6 +44,23 @@ public static class SqliteData
             connection.Close();
         }
     }
+
+    public static void RemoveGame(int? gameId)
+    {
+        using (var connection = new SQLiteConnection($"Data Source={Datapath}/GameDB.sqlite")) {
+            connection.Open();
+
+            // var command = connection.CreateCommand();
+
+            // remove game data
+            var insertSql = "DELETE FROM Games where GameID = @GameID";
+            var removeGame = new SQLiteCommand(insertSql, connection);
+            removeGame.Parameters.AddWithValue("@GameID", gameId);
+            removeGame.ExecuteNonQuery();
+            connection.Close();
+        }
+    }
+    
     public static List<Game> GetAllGames()
     {
         var games = new List<Game>();

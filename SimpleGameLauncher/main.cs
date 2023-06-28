@@ -3,14 +3,15 @@
 namespace SimpleGameLauncher
 {
         public static class Sgl
-        { 
+        {
             public static void Main(string[] args)
         {
-            Parser.Default.ParseArguments<AddOptions, ListOptions, RemoveOptions>(args)
+            Parser.Default.ParseArguments<AddOptions, ListOptions, RunOptions, RemoveOptions>(args)
                 .WithParsed<AddOptions>(RunAdd)
                 .WithParsed<ListOptions>(RunList)
-                .WithParsed<RemoveOptions>(RunRemove);
-                //.WithNotParsed(HandleParseError);
+                .WithParsed<RemoveOptions>(RunRemove)
+                .WithParsed<RunOptions>(RunRun);
+            //.WithNotParsed(HandleParseError);
         }
 
         private static void RunAdd(AddOptions options)
@@ -29,6 +30,11 @@ namespace SimpleGameLauncher
         {
             // Call ControlActions.Remove() with the provided ID
             ControlActions.Remove(options.Id);
+        }
+
+        private static void RunRun(RunOptions options)
+        {
+            ControlActions.Run(options.Id);
         }
 
         private static void HandleParseError(IEnumerable<Error> errors)
@@ -73,6 +79,13 @@ namespace SimpleGameLauncher
     // Command-line options for the --remove argument
     [Verb("remove", HelpText = "Remove a game.")]
     public class RemoveOptions
+    {
+        [Option('i', "id", Required = true, HelpText = "Game ID.")]
+        public int Id { get; set; }
+    }
+    
+    [Verb("run", HelpText = "Run a game.")]
+    public class RunOptions
     {
         [Option('i', "id", Required = true, HelpText = "Game ID.")]
         public int Id { get; set; }
