@@ -7,21 +7,24 @@ public static class SqliteData
     
     public static void CreateDatabase()
     {
-        Console.WriteLine("Creating Database...");
-        // Create a new SQLite database file
-        SQLiteConnection.CreateFile($"{Datapath}/GameDB.sqlite");
+        if (!File.Exists(Path.Combine(Configuration.DataDir,"GameDB.sqlite")))
+        {
+            Console.WriteLine("Creating Database...");
+            // Create a new SQLite database file
+            SQLiteConnection.CreateFile($"{Datapath}/GameDB.sqlite");
 
-        // Connect to the database
-        var connection = new SQLiteConnection($"Data Source={Datapath}/GameDB.sqlite;Version=3;");
-        connection.Open();
+            // Connect to the database
+            var connection = new SQLiteConnection($"Data Source={Datapath}/GameDB.sqlite;Version=3;");
+            connection.Open();
 
-        // Create a Games table
-        var createTableSql = "CREATE TABLE Games (GameID INTEGER PRIMARY KEY, GameName TEXT, Developer TEXT, ReleaseDate DATE, Genre TEXT, Type TEXT, FilePath TEXT)";
-        var createTableCmd = new SQLiteCommand(createTableSql, connection);
-        createTableCmd.ExecuteNonQuery();
+            // Create a Games table
+            var createTableSql = "CREATE TABLE Games (GameID INTEGER PRIMARY KEY, GameName TEXT, Developer TEXT, ReleaseDate DATE, Genre TEXT, Type TEXT, FilePath TEXT)";
+            var createTableCmd = new SQLiteCommand(createTableSql, connection);
+            createTableCmd.ExecuteNonQuery();
 
-        // Close the database connection
-        connection.Close();
+            // Close the database connection
+            connection.Close();
+        }
     }
 
     public static void AddGame(string? gameName, string? developer, string? date, string? genre, string? type, string? path) // method for adding sample data

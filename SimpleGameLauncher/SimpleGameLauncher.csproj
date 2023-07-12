@@ -6,8 +6,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="System.Data.SQLite" Version="1.0.117"/>
-    <PackageReference Include="Tomlyn" Version="0.16.2"/>
-    <PackageReference Include="CommandLineParser" Version="2.8.0"/>
+    <PackageReference Include="Avalonia" Version="11.0.0" />
+    <PackageReference Include="System.Data.SQLite" Version="1.0.117" />
+    <PackageReference Include="Tomlyn" Version="0.16.2" />
+    <PackageReference Include="CommandLineParser" Version="2.8.0" />
   </ItemGroup>
 </Project>

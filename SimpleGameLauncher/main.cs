@@ -5,14 +5,18 @@ namespace SimpleGameLauncher
         public static class Sgl
         {
             public static void Main(string[] args)
-        {
-            Parser.Default.ParseArguments<AddOptions, ListOptions, RunOptions, RemoveOptions>(args)
-                .WithParsed<AddOptions>(RunAdd)
-                .WithParsed<ListOptions>(RunList)
-                .WithParsed<RemoveOptions>(RunRemove)
-                .WithParsed<RunOptions>(RunRun);
-            //.WithNotParsed(HandleParseError);
-        }
+            {
+                Directory.CreateDirectory(Configuration.DataDir);
+                Directory.CreateDirectory(Configuration.ConfigDir);
+                SqliteData.CreateDatabase();
+
+                Parser.Default.ParseArguments<AddOptions, ListOptions, RunOptions, RemoveOptions>(args)
+                    .WithParsed<AddOptions>(RunAdd)
+                    .WithParsed<ListOptions>(RunList)
+                    .WithParsed<RemoveOptions>(RunRemove)
+                    .WithParsed<RunOptions>(RunRun);
+                //.WithNotParsed(HandleParseError);
+            }
 
         private static void RunAdd(AddOptions options)
         {

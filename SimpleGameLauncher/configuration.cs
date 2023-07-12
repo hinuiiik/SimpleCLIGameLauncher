@@ -1,49 +1,26 @@
+using System.Net;
+using System.Runtime.InteropServices;
+
 namespace SimpleGameLauncher;
 using Tomlyn;
 
 public sealed class Configuration {
-    public static String DataDir { get; set; } = XdgDataDir();
-    public static String ConfigDir { get; set; } = XdgConfigDir();
-
-    public static void FirstLaunch()
+    public static String DataDir { get; set; } = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData, 
+        Environment.SpecialFolderOption.Create), "SimpleGameLauncher");
+    public static String ConfigDir { get; set; } = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData, 
+        Environment.SpecialFolderOption.Create), "SimpleGameLauncher");
+    public static int Platform { get; set; } = GetPlatform();
+    
+    private static int GetPlatform()
     {
-        if(!Directory.Exists(DataDir))
+        if (RuntimeInformation.IsOSPlatform((OSPlatform.Linux)))
         {
-            Directory.CreateDirectory(DataDir);
-            Console.WriteLine("Created Data Directory at " + DataDir);
+            return 0;
         }
-        if(!Directory.Exists(ConfigDir))
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
         {
-            Directory.CreateDirectory(ConfigDir);
-            Console.WriteLine("Created Config Directory at " + ConfigDir);
+            return 1;
         }
-        if (!File.Exists($"{DataDir}/GameDB.sqlite"))
-        {
-            SqliteData.CreateDatabase();
-            Console.WriteLine("Created Game database.");
-        }
-    }
-
-    private static string XdgDataDir()
-    {
-        // other XDG_DATA_HOME dir set
-        if(!String.IsNullOrEmpty(Environment.GetEnvironmentVariable("XDG_DATA_HOME")))
-        {
-            return Environment.ExpandEnvironmentVariables("%XDG_DATA_HOME%/SimpleGameLauncher");
-        }
-            // defaulting to the user's home
-            return Environment.ExpandEnvironmentVariables("%HOME%/.local/share/SimpleGameLauncher");
-    }
-
-    private static string XdgConfigDir()
-    {
-        // other XDG_DATA_HOME dir set
-        if(!String.IsNullOrEmpty(Environment.GetEnvironmentVariable("XDG_CONFIG_HOME")))
-        {
-            return Environment.ExpandEnvironmentVariables("%XDG_CONFIG_HOME%/SimpleGameLauncher");
-        }
-
-        // defaulting to the user's home
-        return Environment.ExpandEnvironmentVariables("%HOME%/.config/SimpleGameLauncher");
+        throw new Exception("Unknown/Unsupported platform.");
     }
 }
