@@ -24,14 +24,8 @@ public static class ControlActions
 
         foreach (var game in games)
         {
-            Console.WriteLine("Game ID: " + game.GameId);
-            Console.WriteLine("Game Name: " + game.GameName);
-            Console.WriteLine("Game Developer: " + game.GameDeveloper);
-            Console.WriteLine("Game Release Date: " + game.GameReleaseDate);
-            Console.WriteLine("Game Genre: " + game.GameGenre);
-            Console.WriteLine("Game Type: " + game.GameType);
-            Console.WriteLine("Game Path: " + game.GamePath);
-            Console.WriteLine();
+            Console.WriteLine(game);
+            Console.WriteLine("-------------------------");
         }
     }
 
