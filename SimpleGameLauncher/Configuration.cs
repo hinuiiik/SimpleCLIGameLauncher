@@ -4,13 +4,6 @@ namespace SimpleGameLauncher;
 
 public static class Configuration
 {
-    public enum LauncherPlatform
-    {
-        Unsupported,
-        Windows,
-        Linux
-    }
-
     public static string DataDir { get; set; } = Path.Combine(Environment.GetFolderPath(
         Environment.SpecialFolder.LocalApplicationData,
         Environment.SpecialFolderOption.Create), "SimpleGameLauncher");
