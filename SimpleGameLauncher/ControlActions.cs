@@ -17,10 +17,11 @@ public static class ControlActions
             Console.WriteLine($"Error running game: {ex.Message}");
         }
     }
+
     public static void List()
     {
         var games = SqliteData.GetAllGames();
-        
+
         foreach (var game in games)
         {
             Console.WriteLine("Game ID: " + game.GameId);
@@ -33,28 +34,29 @@ public static class ControlActions
             Console.WriteLine();
         }
     }
+
     public static void Add(string? gameName, string? developer, string? date, string? genre, string? type, string? path)
     {
         SqliteData.AddGame(gameName, developer, date, genre, type, path);
     }
+
     public static void Remove(int num)
     {
         SqliteData.RemoveGame(num);
     }
+
     public static void Edit(int num)
     {
-        
     }
 }
 
 public class Game
 {
-    public int GameId { get; set;  }
+    public int GameId { get; set; }
     public string? GameName { get; set; }
     public string? GameDeveloper { get; set; }
     public string? GameReleaseDate { get; set; }
     public string? GameGenre { get; set; }
     public string? GameType { get; set; }
     public string? GamePath { get; set; }
-    
 }
