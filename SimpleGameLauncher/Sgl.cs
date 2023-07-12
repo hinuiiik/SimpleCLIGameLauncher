@@ -42,9 +42,9 @@ public static class Sgl
         ControlActions.Run(options.Id);
     }
 
-    private static void HandleParseError(IEnumerable<Error> errors)
-    {
-        // Handle command-line argument parsing errors
-        foreach (var error in errors) Console.WriteLine(error.ToString());
-    }
+    // private static void HandleParseError(IEnumerable<Error> errors)
+    // {
+    //     // Handle command-line argument parsing errors
+    //     foreach (var error in errors) Console.WriteLine(error.ToString());
+    // }
 }
