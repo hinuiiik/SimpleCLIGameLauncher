@@ -6,6 +6,7 @@ namespace SimpleGameLauncher
         {
             public static void Main(string[] args)
             {
+                // create directory and database if not already created
                 Directory.CreateDirectory(Configuration.DataDir);
                 Directory.CreateDirectory(Configuration.ConfigDir);
                 SqliteData.CreateDatabase();
