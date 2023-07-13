@@ -1,4 +1,3 @@
-using System.Data.Entity.Core.Mapping;
 using System.Diagnostics;
 
 namespace SimpleGameLauncher;
