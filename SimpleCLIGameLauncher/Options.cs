@@ -1,6 +1,6 @@
 using CommandLine;
 
-namespace SimpleGameLauncher;
+namespace SimpleCLIGameLauncher;
 
 // Command-line options for the --run argument
 [Verb("run", HelpText = "Run a game.")]

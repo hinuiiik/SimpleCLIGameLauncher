@@ -1,6 +1,6 @@
 using System.Data.SQLite;
 
-namespace SimpleGameLauncher;
+namespace SimpleCLIGameLauncher;
 
 public static class SqliteData
 {

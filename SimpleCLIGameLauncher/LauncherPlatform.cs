@@ -1,4 +1,4 @@
-namespace SimpleGameLauncher;
+namespace SimpleCLIGameLauncher;
 
 public enum LauncherPlatform
 {

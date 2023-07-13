@@ -1,6 +1,6 @@
 using System.Diagnostics;
 
-namespace SimpleGameLauncher;
+namespace SimpleCLIGameLauncher;
 
 public static class ControlActions
 {

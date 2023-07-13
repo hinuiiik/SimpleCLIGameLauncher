@@ -1,6 +1,6 @@
 ﻿using CommandLine;
 
-namespace SimpleGameLauncher;
+namespace SimpleCLIGameLauncher;
 
 public static class Sgl
 {

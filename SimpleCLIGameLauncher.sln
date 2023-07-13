@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleGameLauncher", "SimpleGameLauncher\SimpleGameLauncher.csproj", "{C598CFB7-3D9C-4E38-B38A-ADBEBD63B39E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleCLIGameLauncher", "SimpleCLIGameLauncher\SimpleCLIGameLauncher.csproj", "{C598CFB7-3D9C-4E38-B38A-ADBEBD63B39E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
