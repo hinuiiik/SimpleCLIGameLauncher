@@ -24,8 +24,7 @@ public static class ControlActions
 
         foreach (var game in games)
         {
-            Console.WriteLine(game);
-            Console.WriteLine("-------------------------");
+            Console.WriteLine(game + "\n");
         }
     }
 
