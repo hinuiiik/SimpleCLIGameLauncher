@@ -46,3 +46,28 @@ public class AddOptions
     [Option('p', "path", Required = true, HelpText = "Game path.")]
     public string? Path { get; set; }
 }
+
+[Verb("edit", HelpText = "Add a game.")]
+public class EditOptions
+{
+    [Option('i', "id", Required = true, HelpText = "Game id.")]
+    public int Id { get; set; }
+    
+    [Option('n', "name", Required = false, HelpText = "Game name.")]
+    public string? Name { get; set; }
+
+    [Option('d', "developer", Required = false, HelpText = "Game developer.")]
+    public string? Developer { get; set; }
+
+    [Option('r', "date", Required = false, HelpText = "Release date.")]
+    public string? Date { get; set; }
+
+    [Option('g', "genre", Required = false, HelpText = "Game genre.")]
+    public string? Genre { get; set; }
+
+    [Option('t', "type", Required = false, HelpText = "Game type.")]
+    public string? Type { get; set; }
+
+    [Option('p', "path", Required = false, HelpText = "Game path.")]
+    public string? Path { get; set; }
+}

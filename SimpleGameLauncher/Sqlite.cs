@@ -48,6 +48,26 @@ public static class SqliteData
         connection.Close();
     }
 
+    public static void EditGame(int id, string? gameName, string? developer, string? date, string? genre, string? type,
+        string? path) // has to replace all at once
+    {
+        using var connection = new SQLiteConnection($"Data Source={DataPath}/GameDB.sqlite");
+        connection.Open();
+
+        const string editSql = "UPDATE Games SET GameName = @GameName, Developer = @Developer, ReleaseDate = @GameDate, " +
+                               "Genre = @GameGenre, Type = @GameType, FilePath = @GamePath WHERE GameID = @Id";
+        var editGame = new SQLiteCommand(editSql, connection);
+        editGame.Parameters.AddWithValue("@Id", id);
+        editGame.Parameters.AddWithValue("@GameName", gameName);
+        editGame.Parameters.AddWithValue("@Developer", developer);
+        editGame.Parameters.AddWithValue("@GameDate", date);
+        editGame.Parameters.AddWithValue("@GameGenre", genre);
+        editGame.Parameters.AddWithValue("@GameType", type);
+        editGame.Parameters.AddWithValue("@GamePath", path);
+        editGame.ExecuteNonQuery();
+        connection.Close();
+    }
+
     public static void RemoveGame(int? gameId)
     {
         using var connection = new SQLiteConnection($"Data Source={DataPath}/GameDB.sqlite");

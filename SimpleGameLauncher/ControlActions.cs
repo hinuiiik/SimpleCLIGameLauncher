@@ -1,3 +1,4 @@
+using System.Data.Entity.Core.Mapping;
 using System.Diagnostics;
 
 namespace SimpleGameLauncher;
@@ -39,7 +40,18 @@ public static class ControlActions
         SqliteData.RemoveGame(num);
     }
 
-    public static void Edit(int num)
+    public static void Edit(int num, string? gameName = null, string? developer = null, string? date = null, 
+        string? genre = null, string? type = null, string? path = null)
     {
+        var game = SqliteData.GetGameById(num);
+        
+        if (!string.IsNullOrWhiteSpace(gameName)) game.GameName = gameName;
+        if (!string.IsNullOrWhiteSpace(developer)) game.GameDeveloper = developer;
+        if (!string.IsNullOrWhiteSpace(date)) game.GameReleaseDate = date;
+        if (!string.IsNullOrWhiteSpace(genre)) game.GameGenre = genre;
+        if (!string.IsNullOrWhiteSpace(type)) game.GameType = type;
+        if (!string.IsNullOrWhiteSpace(path)) game.GamePath = path;
+        SqliteData.EditGame(game.GameId, game.GameName, game.GameDeveloper, game.GameReleaseDate, game.GameGenre, 
+            game.GameType, game.GamePath);
     }
 }
